@@ -46,7 +46,10 @@ async function runPlaywrightTests(context) {
     await page.click("#login-button");
 
     // Wait for a selector that confirms successful login (the product list)
-    await page.waitForSelector(".inventory_list", { timeout: 5000 });
+    //await page.waitForSelector(".inventory_list", { timeout: 5000 });
+    await page.waitForSelector(".this_selector_does_not_exist", {
+      timeout: 5000,
+    });
 
     // If everything worked, send a success availability result to App Insights
     client.trackAvailability({
