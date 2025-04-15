@@ -1,31 +1,22 @@
-// Import the Azure Functions library
-// This gives us access to Azure Functions bindings and setup methods
-const { app } = require("@azure/functions");
+// Import the Playwright test function we created in playwrightTest.js
+// This function will run a browser, perform the login test, and send results to Application Insights
+const { runPlaywrightTests } = require("../playwrightTest");
 
-// Import the custom function we created to run Playwright tests
-// This will be the function that opens a browser and runs the login test
-const { runPlaywrightTests } = require("../playwrightTest.js");
+// Export the main function so Azure Functions can run it
+// This is a timer-triggered function that runs on a schedule (defined in function.json)
+module.exports = async function (context, myTimer) {
+  try {
+    // Log to the Azure Function runtime that the trigger started
+    context.log("🟢 Timer trigger activated!");
 
-// Register a new Timer Trigger Function called 'timerTrigger1'
-app.timer("timerTrigger1", {
-  // This is the schedule expression: '0 */5 * * * *'
-  // It means: run every 5 minutes (in CRON format)
-  schedule: "0 */5 * * * *",
+    // Run the Playwright test and wait for it to finish
+    await runPlaywrightTests(context);
 
-  // This is the handler function that gets executed on each run
-  handler: async (myTimer, context) => {
-    try {
-      // Log that we're starting the test
-      context.log("Running Playwright test...");
-
-      // Call the Playwright test function (opens browser, logs in, tracks results)
-      await runPlaywrightTests(context);
-
-      // Log that the test finished successfully
-      context.log("Test complete!");
-    } catch (error) {
-      // If something goes wrong, log the error to the Azure Function logs
-      context.log.error("Test error:", error);
-    }
-  },
-});
+    // If the test ran without throwing an error, log success
+    context.log("✅ Test complete!");
+  } catch (error) {
+    // If something went wrong during the test, log the error
+    // This will help with debugging and also appears in Application Insights
+    context.log.error("❌ Error running Playwright test:", error.message);
+  }
+};

@@ -1,6 +1,10 @@
 // Load environment variables from .env file
 // This makes your App Insights connection string available via process.env
 require("dotenv").config();
+console.log(
+  "Connection string:",
+  process.env.APPLICATIONINSIGHTS_CONNECTION_STRING
+);
 
 // Import Playwright library for browser automation
 const playwright = require("playwright");
