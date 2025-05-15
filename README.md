@@ -106,7 +106,7 @@ The signal should be: `Availability`, with condition: `success < 100%`.
 This project was inspired by the excellent blog post:
 
 **[Synthetic Monitoring in Application Insights Using Playwright: A Game-Changer](https://techcommunity.microsoft.com/blog/AzureArchitectureBlog/synthetic-monitoring-in-application-insights-using-playwright-a-game-changer/4400509)**  
-by **Anusha Malhotra**, with the original GitHub repo available at:  
+by **Anusha Ammaluru**, with the original GitHub repo available at:  
 🔗 [https://github.com/anu-01/AppInsights-Playwright](https://github.com/anu-01/AppInsights-Playwright)
 
 The original solution introduced a great approach to replacing deprecated Azure Application Insights tests using Playwright + Azure Functions.
